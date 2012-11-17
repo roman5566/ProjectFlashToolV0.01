@@ -1,0 +1,137 @@
+MADE BY xXXBOXxHACKERXx Kinect Dashboard Leaker
+DO NOT COPY AS YOUR OWN WORK!
+some infor from http://free60.org/Fusesets
+SCROLL DOWN FOR INFO!
+
+DEVKIT FUSES:
+
+FUSESET 00:C0FFFFFFFFFFFFFF
+FUSESET 01:0F0F0F0F0F0FF00F
+FUSESET 02:0000000000000000
+FUSESET 03:XXXXXXXXXXXXXXXX
+FUSESET 04:XXXXXXXXXXXXXXXX
+FUSESET 05:YYYYYYYYYYYYYYYY
+FUSESET 06:YYYYYYYYYYYYYYYY
+FUSESET 07:0000000000000000
+FUSESET 08:0000000000000000
+FUSESET 09:0000000000000000
+FUSESET 10:0000000000000000
+FUSESET 11:0000000000000000
+
+RETAIL FUSES:
+
+FUSESET 00:C0FFFFFFFFFFFFFF
+FUSESET 01:0F0F0F0F0F0F0FF0
+FUSESET 02:0F00000000000000
+FUSESET 03:XXXXXXXXXXXXXXXX
+FUSESET 04:XXXXXXXXXXXXXXXX
+FUSESET 05:YYYYYYYYYYYYYYYY
+FUSESET 06:YYYYYYYYYYYYYYYY
+FUSESET 07:0000000000000000
+FUSESET 08:0000000000000000
+FUSESET 09:0000000000000000
+FUSESET 10:0000000000000000
+FUSESET 11:0000000000000000
+
+RETAIL BINARY FUSES:
+
+Fuseset 00: 1100011111111111111
+Fuseset 01: 0101010101010110
+Fuseset 02: 0100000000000000
+Fuseset 03: 1001111110110000000101110100000000010101011101000101000000000000
+Fuseset 04: 1001111110110000000101110100000000010101011101000101000000000000
+Fuseset 05: 1101010101101001101110101101011010010101100011011011000000000000
+Fuseset 06: 1101010101101001101110101101011010010101100011011011000000000000
+Fuseset 07: 1111000000000000
+Fuseset 08: 0000000000000000
+Fuseset 09: 0000000000000000
+Fuseset 10: 0000000000000000
+Fuseset 11: 0000000000000000
+
+ACTUAL RETAIL DUMP FOR BINARY:
+
+fuseset 00: C0FFFFFFFFFFFFFF
+fuseset 01: 0F0F0F0F0F0F0FF0
+fuseset 02: 0F00000000000000
+fuseset 03: 9FB0174015744DAF
+fuseset 04: 9FB0174015744DAF
+fuseset 05: D569BAD6958DAE9D
+fuseset 06: D569BAD6958DAE9D
+fuseset 07: FFFF000000000000
+fuseset 08: 0000000000000000
+fuseset 09: 0000000000000000
+fuseset 10: 0000000000000000
+fuseset 11: 0000000000000000
+
+INFO:
+
+FUSES 10-11 = 0A-0B
+x+Y= CPU KEY
+
+
+The dev kit fuseSet 2 is different. In another document by microsoft to make retail a dev  it says:
+
+6) Reset the console type from Retail to Dev (Agile doc H03710)
+RETAIL		00000002
+DEVELOPMENT	00000001
+ 
+DEV:
+ Fuseset 01:0F0F0F0F0F0FF00F
+RETAIL:
+ Fuseset 01:0F0F0F0F0F0F0FF0
+
+DEV BINARY:
+ Fuseset 01: 0101010101011001
+ RETIAL BINARY:
+ Fuseset 01: 0101010101010110
+
+so this means that it reverses 4 fuses in the procceses and retail is 2 so if retail is 0110 
+and dev is 1001 this mean you convert 2 together to 1-2 apart to get f00f
+
+
+The size of the Retail version is: 16.5 MB (17,301,504 bytes)
+The size of veron Devkit fact: 66.0 MB (69,206,016 bytes)
+
+
+The Xbox 360's Xenon CPU has 768 bits of eFUSE, a technology invented by IBM, and implemented 
+in some of it's processors. eFUSEs are hardware fuses on the CPU, and can be "blown" to a binary
+ value (1 being blown, and 0 being un-blown) in the Xbox 360, there are 768 fuses, that make up 
+the fusesets. Though each fuseset can be blown individually, they are blown in groups of 8 to 
+make a hexadecimal value for the CPU key, and fuseline 00, instead of a binary value, which is 
+what XeLL will actually display. Technically, there are only 192 viewable fuses.
+
+
+Fusesets 00 and 01
+These are burned at the factory, after the console is manufactured, they show whether
+ the console is a devkit or not. They also disable CPU JTAG after the console's flash is programed.
+
+Fuseset 02
+This is the lockdown counter for the 2BL/CB (The 2nd Bootloader, stored in NAND Flash)
+ One of these are burned everytime the console updates it's bootloader (Which isn't very often)
+ this is the reason that there is no way to recover a JTAG that has been updated to 2.0.8***.0,
+ even is you have the CPU key, (2BL is encrypted with the CPU/1BL key, but is signed with
+ Microsoft's private key so you can't change the lockdown counter in the NAND. The bootloader
+ will fail signature checks, and panic)
+
+Fusesets 03-06
+These make up the CPU key. These start out as all zero's, and are burned presumably at random when
+ the console boots for the first time, they are used to encrypt the keyvault, and the bootloader 
+sections. The CPU key is unique to each console, and is sometimes refered to as the "per-box key" 
+To find the CPU key, add fusesets 03, and 05, OR 04 and 06. For example, this console's CPU key 
+would be "XXXXXXXXXXXXXXXXYYYYYYYYYYYYYYYY."
+
+Fusesets 07-11
+These make up the console's "Lockdown Counter." They are blown after each dashboard update starting
+ with the update from 4532/4548 to 4598. They prevent a previous version of the dashboard from being
+ run on an updated console. There are enough eFUSEs in this section for Microsoft to update the
+console roughly 80 times. The lockdown counter of this console is at FFFF00000..., this means that 
+it has recieved 4 dashboard updates since 2.0.4548.0 ran on it. Microsoft originally intended to 
+only blow an eFUSE when a system update patched a critical vulnerability (Like the HV vulnerability 
+in 4532 and 4548) but has now decided to blow an eFUSE with every update since the update to 4598. 
+In the NAND's 6BL(CF) section, there is another lockdown counter that should match the one of the 
+eFUSEs. If it doesn't match, the console will panic on boot, and will show a RRoD. Now, here's the 
+good part! If we know the CPU key of the console, we can decrypt the 6BL, and change the lockdown 
+counter in the NAND to match the one on the console, and therefore run an older dashboard. Since 
+the 6BL isn't signed with Microsoft's private key, we can edit it as we please, so long as we have
+ our CPU key.
+

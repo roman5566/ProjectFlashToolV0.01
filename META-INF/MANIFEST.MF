@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Class-Path: .
+Main-Class: Test
+
+Name: org/apache/axis
+Implementation-Vendor: Apache Web Services
+Implementation-Title: Apache Axis
+Implementation-Version: 1.4 1855 April 22 2006
+
